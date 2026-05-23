@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Khma — design concepts</title>
+    <meta
+      name="description"
+      content="Two design concepts for Khma, an AI feedback-analytics product for Georgian hospitality."
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0b0b0c;
+        --card: #161618;
+        --line: #2a2a2e;
+        --ink: #f5f5f5;
+        --muted: #a0a0a8;
+        --rausch: #ff385c;
+        --blue: #0099ff;
+      }
+      * { box-sizing: border-box; margin: 0; }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font: 16px/1.5 -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 32px;
+      }
+      .wrap { width: 100%; max-width: 880px; }
+      .head { text-align: center; margin-bottom: 40px; }
+      .brand {
+        font-size: 28px; font-weight: 700; letter-spacing: -0.02em;
+        display: inline-flex; align-items: baseline; gap: 8px;
+      }
+      .brand .geo { font-size: 18px; font-weight: 500; color: var(--muted); }
+      .head p { color: var(--muted); margin-top: 12px; max-width: 520px; margin-inline: auto; }
+      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+      @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+      .card {
+        display: block;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 28px;
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.18s ease, border-color 0.18s ease;
+      }
+      .card:hover { transform: translateY(-4px); }
+      .card.a:hover { border-color: var(--blue); }
+      .card.b:hover { border-color: var(--rausch); }
+      .swatch { display: flex; gap: 8px; margin-bottom: 20px; }
+      .dot { width: 26px; height: 26px; border-radius: 999px; border: 1px solid var(--line); }
+      .tag { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+      .card h2 { font-size: 22px; letter-spacing: -0.01em; margin: 6px 0 8px; }
+      .card p { color: var(--muted); font-size: 14px; }
+      .go { margin-top: 20px; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
+      .a .go { color: var(--blue); }
+      .b .go { color: var(--rausch); }
+      footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 36px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="head">
+        <div class="brand">Khma <span class="geo">ხmа</span></div>
+        <p>
+          AI feedback analytics for Georgian hospitality. Two design directions for the same
+          product — pick one to explore the full landing page.
+        </p>
+      </div>
+
+      <div class="grid">
+        <a class="card a" href="./conceptA/">
+          <div class="swatch">
+            <span class="dot" style="background:#090909"></span>
+            <span class="dot" style="background:#0099ff"></span>
+            <span class="dot" style="background:#ffffff"></span>
+          </div>
+          <div class="tag">Concept A</div>
+          <h2>Framer — dark poster</h2>
+          <p>Near-black canvas, oversized display type, a single electric-blue accent and gradient spotlight cards.</p>
+          <span class="go">View concept A →</span>
+        </a>
+
+        <a class="card b" href="./conceptB/">
+          <div class="swatch">
+            <span class="dot" style="background:#ffffff"></span>
+            <span class="dot" style="background:#ff385c"></span>
+            <span class="dot" style="background:#222222"></span>
+          </div>
+          <div class="tag">Concept B</div>
+          <h2>Airbnb — warm &amp; light</h2>
+          <p>White canvas, soft rounding, modest type weights and a single Rausch-pink voltage.</p>
+          <span class="go">View concept B →</span>
+        </a>
+      </div>
+
+      <footer>Design previews · the waitlist form is a front-end demo and does not store data.</footer>
+    </div>
+  </body>
+</html>
