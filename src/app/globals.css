@@ -339,6 +339,45 @@ select {
   display: none;
 }
 
+/* Language switch */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-pill);
+}
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink-muted);
+  padding: 6px 11px;
+  border-radius: var(--radius-pill);
+  line-height: 1;
+  transition: background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+.lang-btn:hover {
+  color: var(--color-ink);
+}
+.lang-btn.active {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-card);
+}
+.lang-btn .flag {
+  width: 18px;
+  height: 13px;
+  border-radius: 2px;
+  flex: none;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
 /* ─────────────────────────  Hero  ───────────────────────── */
 .hero {
   position: relative;

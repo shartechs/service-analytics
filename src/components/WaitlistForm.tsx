@@ -4,11 +4,13 @@ import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { joinWaitlist } from "@/app/actions";
 import { CITIES, BUSINESS_TYPES, type WaitlistState } from "@/lib/constants";
+import { dict, cityLabels, businessTypeLabels, type Lang } from "@/lib/i18n";
 
 const initialState: WaitlistState = { status: "idle", message: "" };
 
-function SubmitButton() {
+function SubmitButton({ lang }: { lang: Lang }) {
   const { pending } = useFormStatus();
+  const f = dict[lang].form;
   return (
     <button
       type="submit"
@@ -16,14 +18,15 @@ function SubmitButton() {
       disabled={pending}
       aria-disabled={pending}
     >
-      {pending ? "Adding you…" : "Request early access"}
+      {pending ? f.pending : f.submit}
     </button>
   );
 }
 
-export default function WaitlistForm() {
+export default function WaitlistForm({ lang }: { lang: Lang }) {
   const [state, formAction] = useActionState(joinWaitlist, initialState);
   const errors = state.fieldErrors ?? {};
+  const f = dict[lang].form;
 
   if (state.status === "success") {
     return (
@@ -32,7 +35,7 @@ export default function WaitlistForm() {
           <div className="check" aria-hidden="true">
             ✓
           </div>
-          <h3>You’re on the list</h3>
+          <h3>{f.successTitle}</h3>
           <p>{state.message}</p>
         </div>
       </div>
@@ -41,13 +44,15 @@ export default function WaitlistForm() {
 
   return (
     <form className="wl-form" action={formAction} noValidate aria-describedby="wl-msg">
+      <input type="hidden" name="lang" value={lang} />
+
       <div className="field">
-        <label htmlFor="businessName">Venue name</label>
+        <label htmlFor="businessName">{f.venueName}</label>
         <input
           id="businessName"
           name="businessName"
           type="text"
-          placeholder="e.g. Old Town Guesthouse"
+          placeholder={f.venueNamePh}
           autoComplete="organization"
           aria-invalid={Boolean(errors.businessName)}
           required
@@ -56,12 +61,12 @@ export default function WaitlistForm() {
       </div>
 
       <div className="field">
-        <label htmlFor="email">Work email</label>
+        <label htmlFor="email">{f.email}</label>
         <input
           id="email"
           name="email"
           type="email"
-          placeholder="you@yourvenue.ge"
+          placeholder={f.emailPh}
           autoComplete="email"
           inputMode="email"
           aria-invalid={Boolean(errors.email)}
@@ -72,14 +77,14 @@ export default function WaitlistForm() {
 
       <div className="field-row">
         <div className="field">
-          <label htmlFor="city">City</label>
+          <label htmlFor="city">{f.city}</label>
           <select id="city" name="city" defaultValue="" aria-invalid={Boolean(errors.city)} required>
             <option value="" disabled>
-              Select…
+              {f.selectPh}
             </option>
             {CITIES.map((c) => (
               <option key={c} value={c}>
-                {c}
+                {cityLabels[c][lang]}
               </option>
             ))}
           </select>
@@ -87,7 +92,7 @@ export default function WaitlistForm() {
         </div>
 
         <div className="field">
-          <label htmlFor="businessType">Venue type</label>
+          <label htmlFor="businessType">{f.venueType}</label>
           <select
             id="businessType"
             name="businessType"
@@ -96,11 +101,11 @@ export default function WaitlistForm() {
             required
           >
             <option value="" disabled>
-              Select…
+              {f.selectPh}
             </option>
-            {BUSINESS_TYPES.map((t) => (
-              <option key={t} value={t}>
-                {t}
+            {BUSINESS_TYPES.map((tp) => (
+              <option key={tp} value={tp}>
+                {businessTypeLabels[tp][lang]}
               </option>
             ))}
           </select>
@@ -109,13 +114,13 @@ export default function WaitlistForm() {
       </div>
 
       <div className="field">
-        <label htmlFor="monthlyReviews">Reviews per month (optional)</label>
+        <label htmlFor="monthlyReviews">{f.monthlyReviews}</label>
         <select id="monthlyReviews" name="monthlyReviews" defaultValue="">
-          <option value="">Not sure</option>
-          <option value="0-100">Under 100</option>
-          <option value="100-500">100–500</option>
-          <option value="500-2000">500–2,000</option>
-          <option value="2000+">Over 2,000</option>
+          {f.mrOptions.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -125,10 +130,8 @@ export default function WaitlistForm() {
         </p>
       )}
 
-      <SubmitButton />
-      <p className="wl-fineprint">
-        Free during the pilot. No card required. We email only about your onboarding.
-      </p>
+      <SubmitButton lang={lang} />
+      <p className="wl-fineprint">{f.fineprint}</p>
     </form>
   );
 }

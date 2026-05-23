@@ -2,6 +2,7 @@
 
 import { pool } from "@/lib/db";
 import { CITIES, BUSINESS_TYPES, type WaitlistState } from "@/lib/constants";
+import { dict, isLang } from "@/lib/i18n";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -9,6 +10,10 @@ export async function joinWaitlist(
   _prev: WaitlistState,
   formData: FormData
 ): Promise<WaitlistState> {
+  const langRaw = String(formData.get("lang") ?? "en");
+  const lang = isLang(langRaw) ? langRaw : "en";
+  const m = dict[lang].form;
+
   const businessName = String(formData.get("businessName") ?? "").trim();
   const email = String(formData.get("email") ?? "")
     .trim()
@@ -18,19 +23,14 @@ export async function joinWaitlist(
   const monthlyReviews = String(formData.get("monthlyReviews") ?? "").trim() || null;
 
   const fieldErrors: NonNullable<WaitlistState["fieldErrors"]> = {};
-  if (businessName.length < 2) fieldErrors.businessName = "Tell us the venue’s name.";
-  if (!EMAIL_RE.test(email)) fieldErrors.email = "That email address looks incomplete.";
-  if (!CITIES.includes(city as (typeof CITIES)[number]))
-    fieldErrors.city = "Pick the city you operate in.";
+  if (businessName.length < 2) fieldErrors.businessName = m.msgNameRequired;
+  if (!EMAIL_RE.test(email)) fieldErrors.email = m.msgEmailInvalid;
+  if (!CITIES.includes(city as (typeof CITIES)[number])) fieldErrors.city = m.msgCityRequired;
   if (!BUSINESS_TYPES.includes(businessType as (typeof BUSINESS_TYPES)[number]))
-    fieldErrors.businessType = "Pick the kind of venue you run.";
+    fieldErrors.businessType = m.msgTypeRequired;
 
   if (Object.keys(fieldErrors).length > 0) {
-    return {
-      status: "error",
-      message: "A couple of fields need a second look.",
-      fieldErrors,
-    };
+    return { status: "error", message: m.msgGenericError, fieldErrors };
   }
 
   try {
@@ -46,15 +46,11 @@ export async function joinWaitlist(
     );
   } catch (err) {
     console.error("waitlist insert failed:", err);
-    return {
-      status: "error",
-      message:
-        "We couldn’t reach the database. Make sure Postgres is running (`npm run db:up`), then try again.",
-    };
+    return { status: "error", message: m.msgDbError };
   }
 
   return {
     status: "success",
-    message: `You’re on the list, ${businessName}. We’ll email ${email} when your city opens.`,
+    message: m.msgSuccess.replace("{name}", businessName).replace("{email}", email),
   };
 }
