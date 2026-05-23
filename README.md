@@ -8,6 +8,22 @@ Built with **Next.js 15 (App Router) · React 19 · TypeScript** and **PostgreSQ
 The marketing page follows the locked design system in [`DESIGN.md`](./DESIGN.md) (Framer's
 dark-canvas poster aesthetic), produced with the [Hallmark](.agents/skills/hallmark) design skill.
 
+## Live concepts
+
+Two design directions for the same product, deployed side by side on GitHub Pages:
+
+| Concept | Look | Live preview |
+| --- | --- | --- |
+| **A — Framer** | Dark poster: near-black canvas, electric-blue accent, gradient spotlight cards | [conceptA →](https://shartechs.github.io/service-analytics/conceptA/) |
+| **B — Airbnb** | Warm & light: white canvas, Rausch-pink voltage, soft rounding | [conceptB →](https://shartechs.github.io/service-analytics/conceptB/) |
+
+**Chooser:** https://shartechs.github.io/service-analytics/
+
+Each concept lives on its own branch (`design-conceptA` / `design-conceptB`) and is published as a
+static export by [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml). On the
+hosted previews the waitlist form is a front-end demo (no backend) — run the app locally for the
+real Postgres-backed flow.
+
 ## Quick start
 
 ```bash
