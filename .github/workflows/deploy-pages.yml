@@ -1,0 +1,78 @@
+name: Deploy concepts to GitHub Pages
+
+# Builds BOTH concept branches as static exports and publishes them side by side:
+#   <pages-url>/conceptA/   — Framer dark theme
+#   <pages-url>/conceptB/   — Airbnb light theme
+#   <pages-url>/            — a chooser linking both
+# One-time setup: repo Settings → Pages → Source = "GitHub Actions".
+
+on:
+  push:
+    branches: [design-conceptA, design-conceptB]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      REPO: ${{ github.event.repository.name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch concept branches
+        run: git fetch origin design-conceptA design-conceptB
+
+      - name: Build concept A (Framer dark)
+        run: |
+          git worktree add ../conceptA origin/design-conceptA
+          cd ../conceptA
+          npm ci
+          NEXT_PUBLIC_STATIC=1 PAGES_BASE_PATH="/${REPO}/conceptA" npm run build
+
+      - name: Build concept B (Airbnb light)
+        run: |
+          git worktree add ../conceptB origin/design-conceptB
+          cd ../conceptB
+          npm ci
+          NEXT_PUBLIC_STATIC=1 PAGES_BASE_PATH="/${REPO}/conceptB" npm run build
+
+      - name: Assemble site
+        run: |
+          mkdir -p site
+          cp -r ../conceptA/out site/conceptA
+          cp -r ../conceptB/out site/conceptB
+          cp .github/pages-index.html site/index.html
+          touch site/.nojekyll   # keep GitHub Pages from stripping Next's _next/ dir
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

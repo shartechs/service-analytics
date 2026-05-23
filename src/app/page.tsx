@@ -1,4 +1,13 @@
-import WaitlistForm from "@/components/WaitlistForm";
+import dynamic from "next/dynamic";
+
+// Build-time switch: static export (GitHub Pages) gets the client-only demo form;
+// the normal server build gets the real Server Action form. The unused branch's
+// dynamic import() is dead-code-eliminated, so the static build never pulls in
+// the "use server" module.
+const WaitlistForm =
+  process.env.NEXT_PUBLIC_STATIC === "1"
+    ? dynamic(() => import("@/components/WaitlistFormDemo"))
+    : dynamic(() => import("@/components/WaitlistForm"));
 
 /* 12 weeks of sample sentiment — clearly a product preview, not a real-customer claim. */
 const SENTIMENT: { pos: number; neg: number }[] = [
