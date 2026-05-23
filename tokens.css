@@ -1,72 +1,65 @@
-/* Hallmark · macrostructure: Bento Grid · tone: technical/atmospheric · anchor hue: blue (#0099ff)
- * theme: DESIGN.md "Framer-design-analysis" (system-managed project — tokens defer to DESIGN.md)
+/* Hallmark · macrostructure: Bento Grid · tone: warm/consumer · anchor hue: Rausch (#ff385c)
+ * theme: DESIGN.md "Airbnb-design-analysis" (concept B — system-managed, tokens defer to DESIGN.md)
  * Portable token source of truth. globals.css mirrors this :root block.
  */
 :root {
-  /* Brand & accent */
-  --color-primary: #ffffff;
-  --color-on-primary: #000000;
-  --color-accent-blue: #0099ff;
+  /* Brand & accent — single Rausch voltage */
+  --color-primary: #ff385c;
+  --color-primary-active: #e00b41;
+  --color-on-primary: #ffffff;
+  --color-accent: #ff385c; /* links, selection, brand moments */
 
   /* Text */
-  --color-ink: #ffffff;
-  --color-ink-muted: #999999;
+  --color-ink: #222222;
+  --color-body: #3f3f3f;
+  --color-ink-muted: #6a6a6a;
+  --color-muted-soft: #929292;
 
-  /* Surfaces */
-  --color-canvas: #090909;
-  --color-surface-1: #141414;
-  --color-surface-2: #1c1c1c;
-  --color-hairline: #262626;
-  --color-hairline-soft: #1a1a1a;
-  --color-inverse-canvas: #ffffff;
-  --color-inverse-ink: #000000;
-
-  /* Signature gradient spotlights */
-  --color-gradient-magenta: #d44df0;
-  --color-gradient-violet: #6a4cf5;
-  --color-gradient-orange: #ff7a3d;
-  --color-gradient-coral: #ff5577;
+  /* Surfaces — Airbnb is white-on-white separated by hairlines + one shadow */
+  --color-canvas: #ffffff;
+  --color-surface-1: #ffffff; /* card surface */
+  --color-surface-2: #f7f7f7; /* soft fill */
+  --color-surface-strong: #f2f2f2;
+  --color-hairline: #dddddd;
+  --color-hairline-soft: #ebebeb;
+  --color-inverse-canvas: #222222; /* charcoal promo card */
+  --color-inverse-ink: #ffffff;
 
   /* Semantic */
-  --color-success: #22c55e;
-  --color-warning: #ff7a3d;
-  --color-danger: #ff5577;
-  --color-focus: rgba(0, 153, 255, 0.55);
+  --color-success: #008a05;
+  --color-warning: #b35900;
+  --color-danger: #c13515; /* Airbnb error red */
+  --color-focus: #222222; /* focus = ink, no glow */
 
-  /* Review-source badge accents */
-  --color-src-google: #8ab4f8;
-  --color-src-booking: #4ea1ff;
-  --color-src-tripadvisor: #5ad19a;
-  --color-src-twogis: #7ee06b;
+  /* Type — Airbnb Cereal VF → Inter substitute (per DESIGN.md) */
+  --font-display: var(--font-inter), Inter, -apple-system, system-ui, "Helvetica Neue", sans-serif;
+  --font-body: var(--font-inter), Inter, -apple-system, system-ui, "Helvetica Neue", sans-serif;
 
-  /* Type families (wired from next/font in layout.tsx) */
-  --font-display: var(--font-geist-sans), "Mona Sans", "Geist", system-ui, sans-serif;
-  --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
-
-  /* Inter character variants — the documented brand voice */
-  --font-features-body: "cv01", "cv05", "cv09", "cv11", "ss03", "ss07";
-
-  /* Spacing — Framer's 5px increment scale */
+  /* Spacing — 4px base (2px micro-step) */
   --space-hair: 1px;
-  --space-xxs: 4px;
-  --space-xs: 8px;
-  --space-sm: 12px;
-  --space-md: 15px;
-  --space-lg: 20px;
-  --space-xl: 30px;
-  --space-xxl: 40px;
-  --space-3xl: 64px;
-  --space-section: 96px;
+  --space-xxs: 2px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+  --space-3xl: 48px;
+  --space-section: 64px;
 
-  /* Radius */
+  /* Radius — soft everywhere */
   --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 15px;
-  --radius-xl: 20px;
-  --radius-xxl: 30px;
-  --radius-pill: 100px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+  --radius-xxl: 32px;
+  --radius-pill: 9999px;
   --radius-full: 9999px;
+
+  /* Elevation — the single Airbnb shadow tier */
+  --shadow-card: rgba(0, 0, 0, 0.02) 0 0 0 1px, rgba(0, 0, 0, 0.04) 0 2px 6px 0,
+    rgba(0, 0, 0, 0.1) 0 4px 8px 0;
 
   /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -76,6 +69,6 @@
   --dur-slow: 360ms;
 
   /* Container */
-  --container: 1200px;
-  --gutter: clamp(20px, 5vw, 30px);
+  --container: 1280px;
+  --gutter: clamp(20px, 5vw, 40px);
 }

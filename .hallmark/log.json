@@ -2,7 +2,14 @@
   {
     "date": "2026-05-23",
     "macrostructure": "Bento Grid",
-    "theme": "DESIGN.md Framer-design-analysis (system-managed)",
+    "theme": "DESIGN.md Airbnb-design-analysis (concept B — system-managed)",
+    "enrichment": "Tier-A CSS dashboard mockup (light)",
+    "brief": "Khma · concept B — same content, Airbnb light/Rausch design language"
+  },
+  {
+    "date": "2026-05-23",
+    "macrostructure": "Bento Grid",
+    "theme": "DESIGN.md Framer-design-analysis (concept A — system-managed)",
     "enrichment": "Tier-A CSS dashboard mockup",
     "brief": "Khma · AI feedback analytics for Georgian hospitality (hotels, restaurants, guesthouses)"
   }
